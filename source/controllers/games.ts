@@ -30,21 +30,23 @@ const saveData = async (req: Request, res: Response, next: NextFunction) => {
     });
 }
 
-// const getGame = async (req: Request, res: Response, next: NextFunction) => {
-//     var fs = require('fs');
-//     let ans = [];
-//     try {
-//         const files = await fs.promises.readdir('db');
-//         for(let file of files) {
-//             console.log(file);
-//             const data = await fs.promises.readFile(`./db/${file}`, 'utf8');
-//             ans.push(data);
-//         }
-//         return res.status(200).json(ans);
-//     } catch (err) {
-//         console.error('Error occurred while reading directory!', err);
-//     }
-// }
+const getAllData = async (req: Request, res: Response, next: NextFunction) => {
+    var fs = require('fs');
+    let ans = [];
+    try {
+        const files = await fs.promises.readdir('db');
+        for(let file of files) {
+            if(file.indexOf('json') === -1) continue;
+            console.log(file);
+            const data = await fs.promises.readFile(`./db/${file}`, 'utf8');
+            console.log(data);
+            ans.push(JSON.parse(data));
+        }
+        return res.status(200).json(ans);
+    } catch (err) {
+        console.error('Error occurred while reading directory!', err);
+    }
+}
 
 const getData = async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.params.date);
@@ -71,4 +73,4 @@ const getSymbols = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-export default { saveData, getData, getSymbols };
+export default { saveData, getData, getSymbols, getAllData };

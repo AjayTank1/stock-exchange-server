@@ -10,5 +10,6 @@ const router = express.Router();
 router.post('/data', controller.saveData);
 router.get('/data/:date', controller.getData);
 router.get('/symbol', controller.getSymbols);
+router.get('/allData', controller.getAllData);
 
 export = router;
